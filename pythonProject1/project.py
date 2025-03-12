@@ -1,11 +1,7 @@
+
 from nicegui import ui
-import psycopg2  # Для работы с PostgreSQL
-import json
-
-from nicegui.html import data
-
-with open("plant_list.json", "w") as write_file:
-    json.dump(data, write_file)
+import psycopg2
+import json  # Для работы с данными JSON
 
 # Параметры подключения к базе данных
 DB_HOST = "5432"
@@ -22,10 +18,10 @@ def connect_to_db():
         ui.notify(f"Ошибка подключения к базе данных: {e}", type="negative")
         return None
 
-# 1. Добавление горшков
+# 1. Страница добавления горшка
 @ui.page('/add_plant')
 def add_plant_page():
-    ui.label("Добавление горшка")
+    ui.label("Добавить горшок")
 
     client_id = ui.number(label="ID клиента", value=1, format='%.0f').props('min=1')
     experiment_id = ui.number(label="ID эксперимента", value=1, format='%.0f').props('min=1')
@@ -45,26 +41,33 @@ def add_plant_page():
             except psycopg2.Error as e:
                 ui.notify(f"Ошибка добавления горшка: {e}", type="negative")
             finally:
-                cur.close()
+                if cur:
+                    cur.close()
                 conn.close()
 
     ui.button("Добавить горшок", on_click=add_plant)
     ui.link('Вернуться на главную', target='/')
 
-
-# 2. Добавление экспериментов
+# 2. Страница добавления эксперимента
 @ui.page('/add_experiment')
 def add_experiment_page():
-    ui.label("Добавление эксперимента")
+    ui.label("Добавить эксперимент")
 
     name = ui.input(label="Название эксперимента")
     description = ui.textarea(label="Описание эксперимента")
-    parameter = ui.textarea(label="Параметры (JSON)")  # Пока просто текстовое поле
+    parameter = ui.textarea(label="Параметры (JSON)", placeholder="Введите данные JSON здесь")
 
     def add_experiment():
         conn = connect_to_db()
         if conn:
             try:
+                # Проверка JSON перед вставкой
+                try:
+                    json.loads(parameter.value)  # Попытка разобрать JSON
+                except json.JSONDecodeError as e:
+                    ui.notify(f"Неверный формат JSON: {e}", type="negative")
+                    return
+
                 cur = conn.cursor()
                 cur.execute(
                     "INSERT INTO public.experiment (name, description, parameter) VALUES (%s, %s, %s)",
@@ -75,17 +78,17 @@ def add_experiment_page():
             except psycopg2.Error as e:
                 ui.notify(f"Ошибка добавления эксперимента: {e}", type="negative")
             finally:
-                cur.close()
+                if cur:
+                    cur.close()
                 conn.close()
 
     ui.button("Добавить эксперимент", on_click=add_experiment)
     ui.link('Вернуться на главную', target='/')
 
-
-# 3. Распределение экспериментов
+# 3. Страница назначения эксперимента
 @ui.page('/assign_experiment')
 def assign_experiment_page():
-    ui.label("Распределение экспериментов")
+    ui.label("Назначить эксперимент")
 
     experiment_id = ui.number(label="ID эксперимента", value=1, format='%.0f').props('min=1')
     plant_id = ui.number(label="ID горшка", value=1, format='%.0f').props('min=1')
@@ -104,14 +107,14 @@ def assign_experiment_page():
             except psycopg2.Error as e:
                 ui.notify(f"Ошибка назначения эксперимента: {e}", type="negative")
             finally:
-                cur.close()
+                if cur:
+                    cur.close()
                 conn.close()
 
     ui.button("Назначить эксперимент", on_click=assign)
     ui.link('Вернуться на главную', target='/')
 
-
-# 4. Просмотр данных
+# 4. Страница просмотра данных
 @ui.page('/view_data')
 def view_data_page():
     ui.label("Просмотр данных")
@@ -131,7 +134,7 @@ def view_data_page():
 
                 if data:
                     columns = [
-                        {'name': 'date', 'label': 'Дата', 'field': 'date', 'sortable': True},
+                        {'name': 'date', 'label': 'Дата', 'field': 'date', 'sortable': True, 'format': '%Y-%m-%d %H:%M:%S'},
                         {'name': 'temperature_ground', 'label': 'Температура почвы', 'field': 'temperature_ground', 'sortable': True},
                         {'name': 'humidity_ground', 'label': 'Влажность почвы', 'field': 'humidity_ground', 'sortable': True},
                         {'name': 'illuminance', 'label': 'Освещенность', 'field': 'illuminance', 'sortable': True},
@@ -144,21 +147,20 @@ def view_data_page():
             except psycopg2.Error as e:
                 ui.notify(f"Ошибка получения данных: {e}", type="negative")
             finally:
-                cur.close()
+                if cur:
+                    cur.close()
                 conn.close()
 
     ui.button("Показать данные", on_click=show_data)
     ui.link('Вернуться на главную', target='/')
 
-
 # Главная страница
 @ui.page('/')
 def index():
-    ui.label("Главная страница")
+    ui.label("Управление экспериментами с растениями")
     ui.link("Добавить горшок", target="/add_plant")
     ui.link("Добавить эксперимент", target="/add_experiment")
-    ui.link("Распределить эксперимент", target="/assign_experiment")
+    ui.link("Назначить эксперимент", target="/assign_experiment")
     ui.link("Просмотреть данные", target="/view_data")
-
 
 ui.run(title="Управление экспериментами с растениями")
