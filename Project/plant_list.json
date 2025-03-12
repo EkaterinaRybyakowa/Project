@@ -1,0 +1,57 @@
+[
+    {
+        "plant_id": 1,
+        "distance_from_edge": 10,
+        "soil_humidity_sensor_pin": 20,
+        "soil_temperature_sensor_pin": 11
+    },
+
+    {
+        "plant_id": 2,
+        "distance_from_edge": 10,
+        "soil_humidity_sensor_pin": 21,
+        "soil_temperature_sensor_pin": 12 
+    },
+
+    {
+        "plant_id": 3,
+        "distance_from_edge": 20,
+        "soil_humidity_sensor_pin": 22,
+        "soil_temperature_sensor_pin": 13
+    },
+
+    {
+        "plant_id": 4,
+        "distance_from_edge": 30,
+        "soil_humidity_sensor_pin": 23,
+        "soil_temperature_sensor_pin": 14
+    },
+
+    {
+        "plant_id": 5,
+        "distance_from_edge": 70,
+        "soil_humidity_sensor_pin": 24,
+        "soil_temperature_sensor_pin": 15
+    },
+
+    {
+        "plant_id": 6,
+        "distance_from_edge": 60,
+        "soil_humidity_sensor_pin": 25,
+        "soil_temperature_sensor_pin": 16
+    },
+
+    {
+        "plant_id": 7,
+        "distance_from_edge": 60,
+        "soil_humidity_sensor_pin": 26,
+        "soil_temperature_sensor_pin": 17
+    },
+
+    {
+        "plant_id": 8,
+        "distance_from_edge": 40,
+        "soil_humidity_sensor_pin": 27,
+        "soil_temperature_sensor_pin": 18
+    }
+]
