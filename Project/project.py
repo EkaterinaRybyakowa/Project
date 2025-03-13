@@ -3,11 +3,7 @@ import psycopg2
 
 import json
 
-# Параметры подключения к базе данных
-DB_HOST = "localhost"
-DB_NAME = "project"
-DB_USER = "postgres"
-DB_PASS = "1234"
+from db import *
 
 # Функция для подключения к базе данных
 def connect_to_db():
