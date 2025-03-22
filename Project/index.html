@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управление экспериментами с растениями</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem; /* Добавляем отступы по краям для мобильных устройств */
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px; /* Ограничиваем максимальную ширину контейнера */
+        }
+        h1 {
+            font-size: 2rem; /* Уменьшаем размер заголовка для мобильных устройств */
+            margin-bottom: 1.5rem;
+            color: #2c3e50;
+        }
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .links a {
+            text-decoration: none;
+            color: white;
+            background-color: #4CAF50; /* Зеленый цвет */
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease;
+        }
+        .links a:hover {
+            background-color: #45a049; /* Темно-зеленый при наведении */
+        }
+
+        /* Медиа-запросы для адаптивности */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.75rem; /* Еще меньше заголовок на очень маленьких экранах */
+            }
+            .links a {
+                padding: 0.5rem 1rem; /* Уменьшаем отступы кнопок */
+                font-size: 1rem; /* Уменьшаем размер текста кнопок */
+            }
+        }
+
+        @media (max-width: 400px) {
+            h1 {
+                font-size: 1.5rem; /* Минимальный размер заголовка */
+            }
+            .links a {
+                font-size: 0.9rem; /* Минимальный размер текста кнопок */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Управление экспериментами с растениями</h1>
+        <div class="links">
+            <a href="/add_plant">Добавить горшок</a>
+            <a href="/add_experiment">Добавить эксперимент</a>
+            <a href="/assign_experiment">Назначить эксперимент</a>
+            <a href="/view_data">Просмотреть данные</a>
+        </div>
+    </div>
+</body>
+</html>

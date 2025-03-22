@@ -4,6 +4,7 @@ import json
 
 from database import *
 
+"""
 # 1. Страница добавления горшка
 @ui.page('/add_plant')
 def add_plant_page():
@@ -151,7 +152,42 @@ def index():
         ui.link("Просмотреть данные", target="/view_data")
 
 ui.run(title="Управление экспериментами с растениями")
+"""
 
+import os
+import psycopg2
+from nicegui import ui
+from pathlib import Path
+
+# Главная страница
+@ui.page('/')
+def index():
+    # Load the HTML file
+    html_path = Path(__file__).parent / 'index.html'  # Определяем путь к HTML
+    if html_path.exists():
+        with open(html_path, 'r', encoding='utf-8') as f:
+            html_content = f.read()
+        ui.html(html_content)  # Insert the HTML content
+
+
+    @ui.page('/add_plant')
+    def add_plant_page():
+        ui.label("Добавить горшок (Страница заглушка)")
+
+    @ui.page('/add_experiment')
+    def add_experiment_page():
+        ui.label("Добавить эксперимент (Страница заглушка)")
+
+    @ui.page('/assign_experiment')
+    def assign_experiment_page():
+        ui.label("Назначить эксперимент (Страница заглушка)")
+
+    @ui.page('/view_data')
+    def view_data_page():
+        ui.label("Просмотреть данные (Страница заглушка)")
+
+
+ui.run(title="Управление экспериментами с растениями")
 
 
 # Создание базы данных (если она не существует)
